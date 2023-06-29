@@ -25,7 +25,7 @@ with app.app_context():
 def get_users():
     users = User.query.all()
     result = [{'name': user.name, 'email': user.email} for user in users]
-    return jsonify(result)
+    return jsonify(result), 200
 
 # додати користувача
 @app.route('/add_user', methods=['POST'])
@@ -35,7 +35,7 @@ def add_user():
     user = User(name=name, email=email)
     db.session.add(user)
     db.session.commit()
-    return jsonify({'message': 'User added successfully'})
+    return jsonify({'message': 'User added successfully'}), 201
 
 # видалити користувача
 @app.route('/delete_user', methods=['DELETE'])
@@ -45,7 +45,7 @@ def delete_user():
     if user:
         db.session.delete(user)
         db.session.commit()
-        return jsonify({'message': 'User deleted successfully'})
+        return jsonify({'message': 'User deleted successfully'}), 204
     else:
         return jsonify({'message': 'User not found'}), 404
 
@@ -79,7 +79,7 @@ def create_test_db():
         db.session.add(new_user)
     db.session.commit()
 
-    return jsonify({'message': 'Test database created successfully'})
+    return jsonify({'message': 'Test database created successfully'}), 200
 
 
 if __name__ == '__main__':
